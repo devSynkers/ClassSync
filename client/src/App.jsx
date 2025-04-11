@@ -1,22 +1,22 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import {Button} from '@mui/material'
-import CalendarComponent from "./components/Calender.jsx";
 import { Routes, Route } from 'react-router-dom'
-import LoginPage from './pages/Login.jsx'
-import LoadingPage from './pages/Loading.jsx'
+import StudentLogin from './pages/student/StudentLogin.jsx'
+import Landing from './pages/Landing.jsx'
+import StudentLayout from "./layouts/StudentLayout.jsx";
+import StudentDashboard from "./pages/student/StudentDashboard.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-        {/* <CalendarComponent />; */}
         <Routes>
-          <Route path="/" element={<LoadingPage/>}/>
-          <Route path="/student" element={<LoginPage/>}/>
+          <Route path="/" element={<Landing/>}/>
+          <Route path="/login/student" element={<StudentLogin/>}/>
+            <Route path="/student" element={<StudentLayout />}>
+                <Route path="dashboard" element={<StudentDashboard />} />
+                {/*<Route path="profile" element={<Profile />} />*/}
+            </Route>
         </Routes>
     </>
   )

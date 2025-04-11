@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors'
+
+import db from '../src/config/db.js';
 import authRoutes from './routes/authRoutes.js'
 // import enrollmentRoutes from './routes/enrollmentRoutes'
 // import notificationRoutes from './routes/notificationRoutes'

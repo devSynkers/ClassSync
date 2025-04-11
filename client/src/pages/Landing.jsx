@@ -15,13 +15,13 @@ const RoleCard = ({img,title,onClick}) => {
   )
 }
 
-export default function LoadingPage() {
+export default function Landing() {
   const navigate = useNavigate();
 
   const roles = [
-      {img:admin, title:"Admin", route:"/admin"},
-      {img:faculty, title:"Faculty", route:"/faculty"},
-      {img:student, title: "Student", route:"/student"},
+      {img:admin, title:"Admin", route:"/login/admin"},
+      {img:faculty, title:"Faculty", route:"/login/faculty"},
+      {img:student, title: "Student", route:"/login/student"},
   ]
 
 
