@@ -1,11 +1,9 @@
-import { useState } from 'react'
-import './App.css'
+import React from "react";
 import { Routes, Route } from 'react-router-dom'
 import StudentLogin from './pages/student/StudentLogin.jsx'
 import Landing from './pages/Landing.jsx'
 import StudentLayout from "./layouts/StudentLayout.jsx";
 import StudentDashboard from "./pages/student/StudentDashboard.jsx";
-
 function App() {
 
   return (
