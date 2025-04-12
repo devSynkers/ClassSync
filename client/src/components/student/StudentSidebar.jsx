@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut } from 'lucide-react';
+import useFetch from "../../hooks/studentHooks/useFetch.js";
 
 export default function StudentSidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [data,loading,error]=useFetch('http://localhost:3000/student/profile/me');
 
     useEffect(() => {
         const handleResize = () => {
@@ -24,6 +26,7 @@ export default function StudentSidebar() {
     };
 
     const navItems = [
+        { icon: <LayoutDashboard size={20} />, label: `WELCOME !${data.student_name}` },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
         { icon: <Calendar size={20} />, label: 'My Timetable' },
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },

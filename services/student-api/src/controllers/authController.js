@@ -1,6 +1,8 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import db from '../config/db.js';
+
+
 const app = express();
 app.use(express.json());
 
@@ -17,7 +19,7 @@ console.log(req.body);
     const values = [roll_no, password];
 
     const result= await db.query(query,values);
-    console.log(result.rows);
+
 
     if(result.rows<=0){
         res.status(401).json({error:"Invalid credentials"});
