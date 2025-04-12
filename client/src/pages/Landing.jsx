@@ -31,7 +31,7 @@ export default function Landing() {
 
     return(
         <div className="flex flex-col min-h-screen">
-            <div className="bg-blue h-20 flex items-center pl-8 sm:pl-16 text-white font-bold tracking-widest text-2xl">ClassSync</div>
+
 
             <div className="flex-grow flex justify-center items-center px-4 py-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 sm:gap-16 max-w-screen-lg w-full">
