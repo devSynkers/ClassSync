@@ -28,7 +28,7 @@ export default function StudentSidebar() {
     };
 
     const navItems = [
-        { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name}` },
+        { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name || ""}`, path:'profile' },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
         { icon: <Calendar size={20} />, label: 'University Timetable', path:'calender'},
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },
@@ -50,7 +50,7 @@ export default function StudentSidebar() {
                         <div className="w-5 h-0.5 bg-gray-800" />
                     </div>
                 </button>
-                <span className="text-lg font-semibold text-gray-800">ClassSync</span>
+                <span className="text-xl font-semibold text-gray-800">ClassSync</span>
             </div>
 
             {/* Main layout */}

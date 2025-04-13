@@ -53,7 +53,7 @@ export default function Feedback() {
 
     return (
         <div className="min-h-screen bg-white flex justify-center items-center p-6">
-            <div className="bg-blue-100 w-full max-w-2xl p-10 rounded-lg shadow-lg relative">
+            <div className="overflow-auto bg-blue-100 w-full max-w-2xl p-10 rounded-lg shadow-lg relative">
                 <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Feedback Form</h2>
 
                 <div className="mb-6">

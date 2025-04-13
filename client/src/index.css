@@ -121,4 +121,12 @@
     .info-text {
         @apply font-montserrat text-slate-500 text-lg leading-7;
     }
+
+    .table-cell-f {
+        @apply border border-blue-400 px-4 sm:px-8 py-3 font-semibold;
+    }
+
+    .table-cell {
+        @apply border border-blue-400 px-4 sm:px-8 py-3;
+    }
 }
