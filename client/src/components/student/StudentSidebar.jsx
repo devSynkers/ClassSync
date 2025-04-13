@@ -7,6 +7,7 @@ export default function StudentSidebar() {
     const [isMobile, setIsMobile] = useState(false);
     const [data,loading,error]=useFetch('http://localhost:3000/student/profile/me');
 
+    console.log("form ss",data)
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 640);
@@ -26,7 +27,6 @@ export default function StudentSidebar() {
     };
 
     const navItems = [
-        { icon: <LayoutDashboard size={20} />, label: `WELCOME !${data.student_name}` },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
         { icon: <Calendar size={20} />, label: 'My Timetable' },
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },

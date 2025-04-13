@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 export const studentProfile = async (req, res) => {
-    const roll_no = req.user.roll_no;
+    const reg_no = req.user.reg_no;
 
     const query = "select s.name AS student_name,s.email, s.phone, s.reg_no,b.name AS batch_name,d.name AS department_name"+
         " FROM student.students s"+
@@ -16,7 +16,7 @@ export const studentProfile = async (req, res) => {
         " WHERE s.reg_no = $1;\n";
 
 
-    const values = [roll_no];
+    const values = [reg_no];
 
     try {
         const result = await db.query(query, values);

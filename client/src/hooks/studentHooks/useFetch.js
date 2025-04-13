@@ -3,7 +3,7 @@ import React,{useState,useEffect} from "react";
 
 const useFetch = (url) => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect( ()=>{
@@ -16,12 +16,12 @@ const useFetch = (url) => {
                             authorization: `Bearer ${localStorage.getItem('token')}`,
                         }});
                 setData(response.data);
-                console.log(response.data);
+                console.log("from use fetch",response.data);
             }catch (error) {
                 console.log(error.message);
                 setError(error);
             }finally {
-                setLoading(true);
+                setLoading(false);
             }
         }
       fetchData();

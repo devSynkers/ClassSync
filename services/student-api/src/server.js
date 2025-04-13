@@ -6,7 +6,7 @@ import authRoutes from './routes/authRoutes.js'
 import userRoutes from "./routes/studentRoutes.js";
 import authMiddleware from "./middleWares/authMiddleWare.js";
 import studentRoutes from "./routes/studentRoutes.js";
-// import enrollmentRoutes from './routes/enrollmentRoutes'
+import enrollmentRoutes from "./routes/enrollmentRoutes.js"
 // import notificationRoutes from './routes/notificationRoutes'
 // import timeTableRoutes from './routes/timeTableRoutes'
 
@@ -19,9 +19,7 @@ app.use(express.json());
 
 app.use('/student/auth',authRoutes);
 app.use('/student/profile',authMiddleware,studentRoutes);
-
-
-// app.use('/student/enroll',enrollmentRoutes);
+app.use('/student/enroll',enrollmentRoutes);
 // app.use('/student/notify',notificationRoutes);
 // app.use('/student/tt',timeTableRoutes);
 
