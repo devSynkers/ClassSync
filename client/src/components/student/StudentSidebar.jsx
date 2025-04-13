@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut, MessageSquare } from 'lucide-react';
 import useFetch from "../../hooks/studentHooks/useFetch.js";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function StudentSidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [data,loading,error]=useFetch('http://localhost:3000/student/profile/me');
+    const navigate = useNavigate();//
 
-    console.log("form ss",data)
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 640);
@@ -27,63 +28,60 @@ export default function StudentSidebar() {
     };
 
     const navItems = [
+        { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name}` },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
-        { icon: <Calendar size={20} />, label: 'My Timetable' },
+        { icon: <Calendar size={20} />, label: 'University Timetable', path:'calender'},
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },
-        { icon: <CalendarDays size={20} />, label: 'Class Timetable' },
-        { icon: <UserCircle size={20} />, label: 'Profile' },
+        { icon: <CalendarDays size={20} />, label: 'Class Timetable', path:'classtimetable'},
+        { icon: <MessageSquare size={20} />, label: 'Feedback', path: 'feedback' },
         { icon: <Settings size={20} />, label: 'Settings' },
         { icon: <HelpCircle size={20} />, label: 'Help / Support' },
         { icon: <LogOut size={20} />, label: 'Logout' },
     ];
 
     return (
-        <div className="flex h-screen bg-gray-100">
-
-            {shouldShowSidebar() && (
-                <aside
-                    className={`
-            bg-blue/45 shadow-md h-full transition-all duration-300 ease-in-out
-            ${isCollapsed && !isMobile ? 'w-20' : 'w-64'}
-            flex flex-col pt-14
-            ${isMobile ? '' : 'fixed sm:relative z-20'}
-          `}
-                >
-                    <nav className="space-y-1 px-2">
-                        {navItems.map((item, index) => (
-                            <a
-                                key={index}
-                                href="#"
-                                className="flex items-center px-3 py-2 hover:bg-blue/50 text-gray-800 rounded-md"
-                            >
-                                <div className="mr-4">{item.icon}</div>
-                                {!isCollapsed && <span className="whitespace-nowrap">{item.label}</span>}
-                            </a>
-                        ))}
-                    </nav>
-                </aside>
-            )}
-
-            <div className="fixed top-0 left-0 right-0 z-30 bg-blue shadow-md h-14 flex items-center px-4">
+        <div className="flex flex-col min-h-screen w-full">
+            {/* Topbar */}
+            <div className="h-14 bg-blue-400 flex items-center px-4 shadow-md z-10">
                 <button onClick={toggleSidebar} className="p-1 mr-4 focus:outline-none">
-                    {/* 3-line Hamburger Icon */}
                     <div className="space-y-1">
-                        <div className="w-5 h-0.5 bg-gray-800"></div>
-                        <div className="w-5 h-0.5 bg-gray-800"></div>
-                        <div className="w-5 h-0.5 bg-gray-800"></div>
+                        <div className="w-5 h-0.5 bg-gray-800" />
+                        <div className="w-5 h-0.5 bg-gray-800" />
+                        <div className="w-5 h-0.5 bg-gray-800" />
                     </div>
                 </button>
                 <span className="text-lg font-semibold text-gray-800">ClassSync</span>
             </div>
 
-            <main
-                className={`flex-1 mt-14 p-6 overflow-auto transition-all duration-300 ${
-                    isMobile ? '' : isCollapsed ? 'ml-20' : 'ml-64'
-                }`}
-            >
-                {/*<h1 className="text-2xl font-bold">Main Content Area</h1>*/}
-                {/*<p className="mt-4 text-gray-600">This is your dashboard or main working space.</p>*/}
-            </main>
+            {/* Main layout */}
+            <div className="flex flex-grow min-h-0">
+                {/* Sidebar */}
+                {shouldShowSidebar() && (
+                    <aside
+                        className={`bg-blue-200 shadow-md pt-4 transition-all duration-300 ease-in-out 
+              ${isCollapsed && !isMobile ? 'w-20' : 'w-64'}
+            `}
+                    >
+                        <nav className="space-y-1 px-2">
+                            {navItems.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => navigate(item.path)}
+                                    className="flex items-center px-3 py-2 hover:bg-blue-300 text-gray-800 rounded-md cursor-pointer"
+                                >
+                                    <div className="mr-4">{item.icon}</div>
+                                    {!isCollapsed && <span>{item.label}</span>}
+                                </div>
+                            ))}
+                        </nav>
+                    </aside>
+                )}
+
+                {/* Main content */}
+                <main className="flex-1 overflow-y-auto p-6 bg-white">
+                    <Outlet />
+                </main>
+            </div>
         </div>
     );
 }
