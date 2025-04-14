@@ -1,6 +1,7 @@
 import express from "express";
 import authMiddleWare from "../middleWares/authMiddleWare.js";
 import {getFixedTimetable} from "../controllers/timeTableController.js";
+import {getDynamicCalendar} from "../controllers/calendarController.js";
 const router = express.Router();
 
 /**
@@ -12,6 +13,6 @@ const router = express.Router();
  */
 router.get('/fixed-timetable', authMiddleWare, getFixedTimetable);
 
-
+router.get('/dynamic',authMiddleWare,getDynamicCalendar)
 
 export default router;

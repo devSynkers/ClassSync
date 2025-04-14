@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-// controllers/student/calendarController.js
+
 export const getFixedTimetable = async (req, res) => {
     const regNo = req.user.reg_no;
 

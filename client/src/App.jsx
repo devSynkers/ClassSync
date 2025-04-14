@@ -10,7 +10,7 @@ import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import StudentClassTimetable from "./pages/student/StudentClassTimetable.jsx";
 import StudentFeedback from "./pages/student/StudentFeedback.jsx";
 import StudentProfile from "./pages/student/StudentProfile.jsx"
-
+import StudentCalendar from "./components/student/StudentCalendar.jsx";
 function App() {
 
   return (
@@ -26,11 +26,11 @@ function App() {
 
             <Route path="/student" element={<StudentSidebar />}>
                 <Route path="dashboard" element={<StudentDashboard />} />
-                <Route path="calender" element={<StudentDashboard />} />
                 <Route path="classtimetable" element={<StudentClassTimetable />} />
+                <Route path="calender" element={<StudentCalendar />} />
                 <Route path="feedback" element={<StudentFeedback />} />
                 <Route path="profile" element={<StudentProfile />} />
-                {/*<Route path="profile" element={<Profile />} />*/}
+
             </Route>
         </Routes>
     </>
