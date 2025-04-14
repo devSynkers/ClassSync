@@ -5,7 +5,7 @@ import Logo from "./Logo.svg";
 const navItems = [
   { label: "Features", href: "#features" },
   { label: "Workflow", href: "#workflow" },
-  { label: "Stakeholders", href: "#stakeholders" },
+  { label: "Stakeholder's Login", href: "#stakeholders" },
   { label: "Testimonials", href: "#testimonials" },
 ];
 
@@ -20,13 +20,11 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg bg-neutral-900/80 text-white border-b border-neutral-700/80 scroll-smooth">
       <div className="container px-4 mx-auto relative lg:text-sm">
         <div className="flex justify-between items-center">
-          {/* Logo and Brand Name */}
           <div className="flex items-center flex-shrink-0">
             <img className="h-10 w-10 mr-2" src={Logo} alt="Logo" />
             <span className="text-xl font-semibold tracking-tight">ClassSync</span>
           </div>
 
-          {/* Desktop Navigation */}
           <ul className="hidden lg:flex ml-14 space-x-10">
             {navItems.map((item, index) => (
               <li key={index}>
@@ -40,18 +38,6 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Desktop Auth Buttons */}
-          <div className="hidden lg:flex justify-center space-x-6 items-center">
-            <a href="#" className="py-2 px-4 border rounded-md hover:border-orange-500">
-              Sign In
-            </a>
-            <a
-              href="#"
-              className="bg-gradient-to-r from-orange-500 to-orange-800 hover:from-orange-600 hover:to-orange-900 py-2 px-4 rounded-md"
-            >
-              Create an account
-            </a>
-          </div>
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex flex-col justify-end">
@@ -77,17 +63,7 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-col space-y-4 w-full items-center">
-              <a href="#" className="w-full text-center py-2 px-4 border rounded-md">
-                Sign In
-              </a>
-              <a
-                href="#"
-                className="w-full text-center py-2 px-4 rounded-md bg-gradient-to-r from-orange-500 to-orange-800"
-              >
-                Create an account
-              </a>
-            </div>
+            
           </div>
         )}
       </div>

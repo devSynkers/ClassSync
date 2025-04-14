@@ -3,6 +3,10 @@
 
 @import "tailwindcss";
 
+html {
+    scroll-behavior: smooth;
+  }
+
 @theme{
     --color-blue:#028fcc;
     --color-bg: #f5f5f5;
