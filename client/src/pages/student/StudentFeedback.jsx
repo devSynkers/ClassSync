@@ -4,6 +4,8 @@ import axios from "axios";
 
 export default function Feedback() {
     const [data, loading, error] = useFetch("http://localhost:3000/student/enroll/courses");
+
+    // console.log(data);
     const [facultyList, setFacultyList] = useState([]);
     const [courseId, setCourseId] = useState('');
     const [facultyId, setFacultyId] = useState('');
@@ -13,9 +15,12 @@ export default function Feedback() {
     useEffect(() => {
         if (data) {
             const courses = data.courses.map(course => ({
+                courseId: course.course_code,
+                facultyId: course.faculty_id,
                 courseName: course.course_name,
                 facultyName: course.faculty_name,
             }));
+            console.log("from courzseeesasdasd ",courses);
             setFacultyList(courses);
         }
     }, [data]);
@@ -27,10 +32,11 @@ export default function Feedback() {
         }
 
         const feedbackData = {
-            faculty_id: facultyId,
-            course_id: courseId,
+            faculty_id: Number(facultyId),
+            course_id: Number(courseId),
             feedback,
         };
+
 
         try {
             await axios.post("http://localhost:3000/student/profile/feedback", feedbackData, {
@@ -65,11 +71,12 @@ export default function Feedback() {
                     >
                         <option value="">Select Course</option>
                         {facultyList.map((course, index) => (
-                            <option key={index} value={course.courseName}>
+                            <option key={index} value={course.courseId}>
                                 {course.courseName}
                             </option>
                         ))}
                     </select>
+
                 </div>
 
                 <div className="mb-6">
@@ -81,11 +88,12 @@ export default function Feedback() {
                     >
                         <option value="">Select Faculty</option>
                         {facultyList.map((course, index) => (
-                            <option key={index} value={course.facultyName}>
+                            <option key={index} value={course.facultyId}>
                                 {course.facultyName}
                             </option>
                         ))}
                     </select>
+
                 </div>
 
                 <div>

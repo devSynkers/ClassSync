@@ -33,18 +33,29 @@ export const studentProfile = async (req, res) => {
 };
 
 export const studentFeedback = async (req, res) => {
-    const{student_id, faculty_id, course_id, feedback}=req.body;
-    const roll_no = req.user.roll_no;
-    const query = "INSERT INTO student.student_feedback (student_id, faculty_id, course_id, feedback_text,date) " +
-        "VALUES ($1, $2, $3, $4,CURRENT_DATE);";
-    const values= [student_id, faculty_id, course_id, feedback];
+    const{faculty_id, course_id, feedback}=req.body;
+    const reg_no = req.user.reg_no;
+
+
+    const checkStudent = await db.query("SELECT * FROM student.students WHERE reg_no = $1", [reg_no]);
+    if (checkStudent.rows.length === 0) return res.status(400).send("Invalid student");
+    console.log(checkStudent.rows);
+// Validate course & faculty relationship
+    const student_id = checkStudent.rows[0].id;
+    const query = `
+            INSERT INTO student.student_feedback 
+            (student_id, faculty_id, course_id, feedback_text, date)
+            VALUES ($1, $2, $3, $4, CURRENT_DATE)
+        `;
+
+    const values = [student_id, faculty_id, course_id, feedback];
 
     try{
         const result = await db.query(query, values);
         res.status(200).send("sent successfully");
     }
     catch(error){
-        console.log(error);
+        console.error("Insert failed: ", error.message);
         res.status(500).send({ error: "ERROR INSERTING QUERY"});
     }
 

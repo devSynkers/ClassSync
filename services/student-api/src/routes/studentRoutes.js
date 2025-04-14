@@ -6,6 +6,6 @@ import authMiddleware from "../middleWares/authMiddleWare.js";
 const router = express.Router();
 
 router.get("/me",authMiddleware,studentProfile);
-router.post("/feedback",studentFeedback);
+router.post("/feedback",authMiddleware,studentFeedback);
 
 export default router;
