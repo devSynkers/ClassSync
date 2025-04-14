@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AppHeader from "../../components/AppHeader";
 
 export default function FacultyLogin() {
   const [username, setUsername] = useState('');
@@ -15,6 +16,8 @@ export default function FacultyLogin() {
   };
 
   return (
+    <>
+    <AppHeader/>
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-emerald-100 to-emerald-300 px-4">
       <div className="w-full max-w-md rounded-3xl p-8 sm:p-10 shadow-2xl border border-white/20 bg-white/25 backdrop-blur-2xl">
         <h2 className="text-2xl font-semibold text-center text-emerald-800 mb-6">Faculty Portal</h2>
@@ -49,5 +52,6 @@ export default function FacultyLogin() {
         </button>
       </div>
     </div>
+    </>
   );
 }

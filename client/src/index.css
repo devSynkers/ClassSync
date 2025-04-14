@@ -12,8 +12,7 @@
 }
 
 :root {
-    background-color: #f5f5f5; /* Clean white background */
-    /* Dark text for good readability */
+    color-scheme: dark;
 }
 
 @layer components {
