@@ -6,6 +6,7 @@ import StudentLayout from "./layouts/students/StudentLayout.jsx";
 import StudentDashboard from "./pages/student/StudentDashboard.jsx";
 import FacultyLogin from "./pages/faculty/FacultyLogin.jsx";
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
+import FacultyDashBoard from "./pages/faculty/FacultyDashBoard.jsx";
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
               <Route path="login/student" element={<StudentLogin/>}/>
               <Route path="login/faculty" element={<FacultyLogin/>}/>
               <Route path="login/admin" element={<AdminLogin/>}/>
+              <Route path="/faculty/dashboard" element={<FacultyDashBoard/>}/>
 
 
             <Route path="/student" element={<StudentLayout/>}>

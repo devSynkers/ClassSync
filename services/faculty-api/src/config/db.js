@@ -1,15 +1,15 @@
 
 import pkg from 'pg';
 import dotenv from 'dotenv';
-
+const isLocal = process.env.NODE_ENV !== 'production';
 dotenv.config();
 
 const { Pool } = pkg;
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, // Railway URL
-    ssl: { rejectUnauthorized: false }, // Required for Railway
-});
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }, // Railway requires this
+  });
 
 // 🟢 Optional: confirm connection once at startup
 pool.connect()

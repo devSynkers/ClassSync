@@ -7,7 +7,6 @@ app.use(express.json());
 
 
 export const login=async (req, res) => {
-
     const {roll_no, password} = req.body;
 console.log(req.body);
     if(!roll_no || !password){
