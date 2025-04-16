@@ -1,1 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap');
+
 @import "tailwindcss";
+
+html {
+    scroll-behavior: smooth;
+  }
+
+@theme{
+    --color-blue:#028fcc;
+    --color-bg: #f5f5f5;
+    --slate-gray: #6D6D6D;
+    --font-roboto: "Roboto", sans-serif;
+    --font-montserrat: "Montserrat", sans-serif;
+}
+
+:root {
+    color-scheme: dark;
+}
+
+@layer components {
+    .max-container {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    .input {
+        @apply sm:flex-1 max-sm:w-full text-base leading-normal text-gray-500 pl-5 max-sm:p-5 outline-none sm:border-none border max-sm:border-b-slate-500 max-sm:rounded-full;
+    }
+    .section {
+        @apply w-full py-12 sm:py-24;
+    }
+
+    .section-header {
+        @apply text-center mb-10;
+    }
+}
+
+@layer base {
+    h1 {
+        @apply text-6xl font-extrabold text-gray-900 font-roboto;
+    }
+    h2 {
+        @apply text-5xl font-bold text-gray-800 font-roboto;
+    }
+    h3 {
+        @apply text-4xl font-medium text-gray-700 font-roboto;
+    }
+    p {
+        @apply text-2xl text-gray-600 font-roboto;
+    }
+    button {
+        @apply bg-blue-500 text-white py-3 px-6 rounded-lg border-0 cursor-pointer transition-all duration-300 ease-in-out hover:bg-blue-700;
+    }
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-dark);
+    }
+
+}
+
+
+
+@layer utilities {
+
+    .glass {
+        @apply backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-lg;
+    }
+    .z-base { z-index: 0; }
+    .z-dropdown { z-index: 10; }
+    .z-sticky { z-index: 20; }
+    .z-modal { z-index: 30; }
+    .z-tooltip { z-index: 40; }
+    .heading {
+        @apply font-montserrat font-bold text-4xl text-gray-800;
+    }
+
+    .subheading {
+        @apply font-montserrat text-xl text-gray-600;
+    }
+
+    .paragraph {
+        @apply font-roboto text-base leading-relaxed ;
+    }
+    .shadow-card {
+        @apply shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out;
+    }
+    .flex-row-center {
+        @apply flex justify-center items-center;
+    }
+
+    .flex-col-center {
+        @apply flex flex-col justify-center items-center;
+    }
+    .padding {
+        @apply sm:px-16 px-8 sm:py-24 py-12;
+    }
+
+    .padding-x {
+        @apply sm:px-16 px-8;
+    }
+
+    .padding-y {
+        @apply sm:py-24 py-12;
+    }
+
+    .padding-l {
+        @apply sm:pl-16 pl-8;
+    }
+
+    .padding-r {
+        @apply sm:pr-16 pr-8;
+    }
+
+    .padding-t {
+        @apply sm:pt-24 pt-12;
+    }
+
+    .padding-b {
+        @apply sm:pb-24 pb-12;
+    }
+
+    .info-text {
+        @apply font-montserrat text-slate-500 text-lg leading-7;
+    }
+}

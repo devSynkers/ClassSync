@@ -1,20 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import {Button} from '@mui/material'
+import React from "react";
+import { Routes, Route } from 'react-router-dom'
+import StudentLogin from './pages/student/StudentLogin.jsx'
+import Landing from './pages/Landing.jsx'
+import StudentLayout from "./layouts/students/StudentLayout.jsx";
+import StudentDashboard from "./pages/student/StudentDashboard.jsx";
+import FacultyLogin from "./pages/faculty/FacultyLogin.jsx";
+import AdminLogin from "./pages/admin/AdminLogin.jsx";
+import FacultyDashBoard from "./pages/faculty/FacultyDashBoard.jsx";
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-        <h1 className="text-3xl font-bold underline">
-            Hello world!
+        <Routes>
+              <Route path='/' element={<Landing/>}/>
+              <Route path="login/student" element={<StudentLogin/>}/>
+              <Route path="login/faculty" element={<FacultyLogin/>}/>
+              <Route path="login/admin" element={<AdminLogin/>}/>
+              <Route path="/faculty/dashboard" element={<FacultyDashBoard/>}/>
 
-        </h1>
-        <Button variant="text">Text</Button>
-        <Button variant="contained">Contained</Button>
-        <Button variant="outlined">Outlined</Button>
+
+            <Route path="/student" element={<StudentLayout/>}>
+                <Route path="dashboard" element={<StudentDashboard />} />
+                {/*<Route path="profile" element={<Profile />} />*/}
+            </Route>
+        </Routes>
     </>
   )
 }
