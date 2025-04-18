@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut } from 'lucide-react';
 import useFetch from "../../hooks/studentHooks/useFetch.js";
 import { Outlet, useNavigate } from "react-router-dom";
-
 export default function StudentSidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [data,loading,error]=useFetch('http://localhost:3000/student/profile/me');
     const navigate = useNavigate();//
-
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 640);
@@ -30,7 +28,7 @@ export default function StudentSidebar() {
     const navItems = [
         { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name || ""}`, path:'profile' },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
-        { icon: <Calendar size={20} />, label: 'University Timetable', path:'calender'},
+        { icon: <Calendar size={20} />, label: 'Calendar', path:'calendar'},
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },
         { icon: <CalendarDays size={20} />, label: 'Class Timetable', path:'classtimetable'},
         { icon: <MessageSquare size={20} />, label: 'Feedback', path: 'feedback' },
