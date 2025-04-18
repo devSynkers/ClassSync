@@ -27,7 +27,7 @@ function App() {
             <Route path="/student" element={<StudentSidebar />}>
                 <Route path="dashboard" element={<StudentDashboard />} />
                 <Route path="classtimetable" element={<StudentClassTimetable />} />
-                <Route path="calender" element={<StudentCalendar />} />
+                <Route path="calendar" element={<StudentCalendar />} />
                 <Route path="feedback" element={<StudentFeedback />} />
                 <Route path="profile" element={<StudentProfile />} />
 

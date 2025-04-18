@@ -30,7 +30,7 @@ export default function StudentSidebar() {
     const navItems = [
         { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name || ""}`, path:'profile' },
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
-        { icon: <Calendar size={20} />, label: 'University Timetable', path:'calender'},
+        { icon: <Calendar size={20} />, label: 'Calendar', path:'calendar'},
         { icon: <AlertCircle size={20} />, label: 'Class Announcements' },
         { icon: <CalendarDays size={20} />, label: 'Class Timetable', path:'classtimetable'},
         { icon: <MessageSquare size={20} />, label: 'Feedback', path: 'feedback' },
