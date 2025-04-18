@@ -1,3 +1,4 @@
+// 📄 db.js
 import pkg from 'pg';
 import dotenv from 'dotenv';
 
@@ -7,10 +8,10 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, // Railway URL
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: false }, // Required for Railway
 });
 
-
+// 🟢 Optional: confirm connection once at startup
 pool.connect()
     .then(() => console.log('✅ Connected to PostgreSQL successfully!'))
     .catch(err => console.error('❌ DB connection error:', err));
