@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut } from 'lucide-react';
 import useFetch from "../../hooks/studentHooks/useFetch.js";
 import { Outlet, useNavigate } from "react-router-dom";
+import { MessageSquare } from 'lucide-react';
 export default function StudentSidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
