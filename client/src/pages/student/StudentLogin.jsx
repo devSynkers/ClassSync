@@ -13,7 +13,7 @@ export default function StudentLogin(){
         console.log("hihihiihi")
     }
     try{
-        let response = await axios.post("http://localhost:3000/student/auth/login",{roll_no:username, password})
+        let response = await axios.post("http://localhost:3000/student/auth/login",{reg_no:username, password})
        let token = response.data.token;
         localStorage.setItem("token", token);
         navigate("/student/dashboard");
