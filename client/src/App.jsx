@@ -11,15 +11,14 @@ import FacultyDashBoard from "./pages/faculty/FacultyDashBoard.jsx";
 import StudentFeedback from "./pages/student/StudentFeedback.jsx";
 import StudentProfile from "./pages/student/StudentProfile.jsx"
 import FacultySidebar from "./components/faculty/FacultySidebar.jsx";
-import FacultyFeedback from "./pages/faculty/FacultyFeedback.jsx";
 import FacultyProfile from "./pages/faculty/FacultyProfile.jsx";
 import { Navigate } from 'react-router-dom';
 import FacultyLayout from "./layouts/faculty/FacultyLayout.jsx";
-import FacultyTimeTable from "./pages/faculty/FacultyTimeTable.jsx";
+import { FacultyTimeTable } from "./pages/faculty/FacultyTimeTable.jsx";
 import FacultyMeetings from "./pages/faculty/FacultyMeetings.jsx";
 import FacultyToDo from "./pages/faculty/FacultyToDo.jsx";
-import FacultySwapRequests from "./pages/faculty/FacultySwapRequests.jsx";
-
+import { FacultySwapRequests } from "./pages/faculty/FacultySwapRequests.jsx";
+import { FacultyFeedback } from './pages/faculty/FacultyFeedback';
 
 function App() {
 

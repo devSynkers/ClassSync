@@ -46,7 +46,7 @@ const meetings = [
   },
 ];
 
-export default function MeetingSchedules() {
+export default function FacultyMeetings() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const filteredMeetings = selectedDate
