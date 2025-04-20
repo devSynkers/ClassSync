@@ -1,149 +1,93 @@
-import { Box, Typography, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+// TimeTable.jsx
+import React, { useState } from 'react';
+import { Typography, Box, Button, Tabs, Tab } from '@mui/material';
+import TimeTableGrid from '../../components/faculty/TimeTableGrid';
+import DelegationForm from '../../components/faculty/DelegationForm';
 
-export function FacultyTimeTable() {
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const timeRanges = [
-    "08:30-09:20",
-    "09:25-10:15",
-    "10:30-11:20",
-    "11:25-12:15",
-    "13:10-14:00",
-    "14:05-14:55",
-    "15:00-15:50",
-    "15:55-16:45",
-  ];
+export const FacultyTimeTable = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const classes = [
+  const currentFacultyId = 'f1'; // Simulated logged-in faculty
+
+  const allPeriods = [
     {
-      id: "1",
-      subject: "Math 101",
-      startTime: "08:30",
-      endTime: "09:20",
-      day: "Monday",
-      room: "Room 101",
+      id: 'p1',
+      courseCode: 'CS101',
+      courseName: 'Intro to CS',
+      room: '101',
+      day: 'Monday',
+      time: '09:00-10:00',
+      facultyId: 'f1',
+      isDelegated: false,
     },
     {
-      id: "2",
-      subject: "Physics 102",
-      startTime: "09:25",
-      endTime: "10:15",
-      day: "Tuesday",
-      room: "Room 102",
+      id: 'p2',
+      courseCode: 'MTH102',
+      courseName: 'Calculus I',
+      room: '202',
+      day: 'Tuesday',
+      time: '10:00-11:00',
+      facultyId: 'f1',
+      isDelegated: true,
+      delegationStatus: 'pending',
+      delegatedToId: 'f2',
+      delegatedToName: 'Dr. Smith',
     },
     {
-      id: "3",
-      subject: "Chemistry 103",
-      startTime: "10:30",
-      endTime: "11:20",
-      day: "Wednesday",
-      room: "Room 103",
-    },
-    {
-      id: "4",
-      subject: "Biology 104",
-      startTime: "11:25",
-      endTime: "12:15",
-      day: "Thursday",
-      room: "Room 104",
-    },
-    {
-      id: "5",
-      subject: "Computer Science 105",
-      startTime: "13:10",
-      endTime: "14:00",
-      day: "Friday",
-      room: "Room 105",
+      id: 'p3',
+      courseCode: 'PHY105',
+      courseName: 'Mechanics',
+      room: '105',
+      day: 'Friday',
+      time: '11:15-12:15',
+      facultyId: 'f2',
+      isDelegated: true,
+      delegationStatus: 'accepted',
+      delegatedToId: 'f1',
+      delegatedToName: 'You',
     },
   ];
 
-  // Get classes for a specific day and time range
-  const getClassesForSlot = (day, timeRange) => {
-    const [startHour] = timeRange.split("-");
-    return classes.filter(
-      (cls) =>
-        cls.day === day && cls.startTime.startsWith(startHour.slice(0, 2))
-    );
+  const myClasses = allPeriods.filter(p => p.facultyId === currentFacultyId);
+  const delegatedToMe = allPeriods.filter(p => p.delegatedToId === currentFacultyId);
+
+  const handleDelegateClick = (period) => {
+    setSelectedPeriod(period);
+    setDialogOpen(true);
+  };
+
+  const handleDelegationSubmit = (data) => {
+    console.log("Delegation submitted:", data);
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Faculty Timetable
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>My Timetable</Typography>
+      <Typography variant="body1" gutterBottom>
+        View and manage your teaching schedule.
       </Typography>
 
-      <Box sx={{ overflowX: "auto" }}>
-        <Table sx={{ minWidth: 800 }} aria-label="faculty timetable" bordered>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: "bold", backgroundColor: "#3f51b5", color: "#fff", border: "1px solid #ddd" }}>Time</TableCell>
-              {days.map((day) => (
-                <TableCell
-                  key={day}
-                  sx={{
-                    fontWeight: "bold",
-                    backgroundColor: "#3f51b5",
-                    color: "#fff",
-                    border: "1px solid #ddd",
-                  }}
-                >
-                  {day}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {timeRanges.map((timeRange) => (
-              <TableRow key={timeRange}>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#f5f5f5",
-                    fontWeight: "bold",
-                    border: "1px solid #ddd",
-                  }}
-                >
-                  {timeRange}
-                </TableCell>
-                {days.map((day) => {
-                  const classesForTimeSlot = getClassesForSlot(day, timeRange);
-                  return (
-                    <TableCell
-                      key={`${day}-${timeRange}`}
-                      sx={{
-                        padding: 1,
-                        border: "1px solid #ddd",
-                        backgroundColor:
-                          classesForTimeSlot.length > 0 ? "#e3f2fd" : "#fff",
-                      }}
-                    >
-                      {classesForTimeSlot.map((cls) => (
-                        <Box
-                          key={cls.id}
-                          sx={{
-                            padding: 1,
-                            backgroundColor: "#bbdefb",
-                            marginBottom: 1,
-                            borderRadius: 1,
-                          }}
-                        >
-                          <Typography
-                            variant="body2"
-                            sx={{ fontWeight: "bold", color: "#1976d2" }}
-                          >
-                            {cls.subject}
-                          </Typography>
-                          <Typography variant="caption" color="textSecondary">
-                            {cls.startTime} - {cls.endTime} | {cls.room}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
+      <Tabs value={activeTab} onChange={(e, newVal) => setActiveTab(newVal)} sx={{ mb: 2 }}>
+        <Tab label="My Classes" />
+        <Tab label="Delegated to Me" />
+      </Tabs>
+
+      {activeTab === 0 ? (
+        <TimeTableGrid periods={myClasses} onDelegateClick={handleDelegateClick} />
+      ) : (
+        <TimeTableGrid periods={delegatedToMe} onDelegateClick={() => {}} />
+      )}
+
+      <DelegationForm
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        period={selectedPeriod}
+        onSubmit={handleDelegationSubmit}
+      />
     </Box>
   );
-}
+};
+
+

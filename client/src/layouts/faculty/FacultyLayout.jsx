@@ -35,7 +35,7 @@ const navItems = [
   { label: 'Student Feedback', icon: <Feedback />, path: 'student-feedback' },
   { label: 'Meetings', icon: <PeopleAltIcon />, path: 'meetings' },
   { label: 'To-Do', icon: <CheckCircleIcon />, path: 'todo' },
-  { label: 'Swap Requests', icon: <SwapHorizIcon />, path: 'swap-requests' },
+  { label: 'Period Delegation', icon: <SwapHorizIcon />, path: 'swap-requests' },
   { label: 'Profile', icon: <Person />, path: 'profile' },
   { label: 'Logout', icon: <Logout />, path: '/login/faculty' },
 ];

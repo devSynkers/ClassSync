@@ -1,186 +1,102 @@
-import { useState } from "react";
-import { Button, Card, CardContent, CardHeader, Typography, Box, Divider, Grid, Snackbar, Alert } from "@mui/material";
-import { Check, X } from "lucide-react"; // You can replace these with Material UI icons if preferred
+import React, { useState } from 'react';
+import { Tab, Tabs, Box, Typography, Grid, Card, CardContent, CardHeader } from '@mui/material';
+import FacultySwapRequestCard from '../../components/faculty/FacultySwapRequestCard';
 
-// Static data for swap requests (this can be replaced with actual data)
-const initialSwapRequests = [
-  {
-    id: "1",
-    requestedBy: "John Doe",
-    requestedDate: "2025-04-20",
-    status: "pending",
-    reason: "Personal emergency, unable to attend the class.",
-    fromSlot: {
-      day: "Monday",
-      startTime: "09:00",
-      endTime: "10:00",
-      subject: "Math 101",
-      class: "B1",
-      room: "Room 301"
-    },
-    toSlot: {
-      day: "Tuesday",
-      startTime: "10:00",
-      endTime: "11:00",
-      subject: "Math 101",
-      class: "B1",
-      room: "Room 302"
-    }
-  },
-  {
-    id: "2",
-    requestedBy: "Jane Smith",
-    requestedDate: "2025-04-21",
-    status: "pending",
-    reason: "Scheduling conflict with another class.",
-    fromSlot: {
-      day: "Wednesday",
-      startTime: "10:00",
-      endTime: "11:00",
-      subject: "Physics 201",
-      class: "A1",
-      room: "Room 202"
-    },
-    toSlot: {
-      day: "Thursday",
-      startTime: "11:00",
-      endTime: "12:00",
-      subject: "Physics 201",
-      class: "A1",
-      room: "Room 203"
-    }
-  }
-];
-
-export function FacultySwapRequests() {
-  const [swapRequests, setSwapRequests] = useState(initialSwapRequests);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-  const handleApprove = (requestId) => {
-    setSwapRequests(
-      swapRequests.map((request) =>
-        request.id === requestId ? { ...request, status: "approved" } : request
-      )
-    );
-    setSnackbarMessage("Swap request approved");
-    setSnackbarSeverity("success");
-    setOpenSnackbar(true);
+export const FacultySwapRequests = () => {
+  // Simulate fetching data from the server
+  const faculty = {
+    id: 1,
+    name: 'Dr. John Doe',
   };
 
-  const handleDecline = (requestId) => {
-    setSwapRequests(
-      swapRequests.map((request) =>
-        request.id === requestId ? { ...request, status: "declined" } : request
-      )
-    );
-    setSnackbarMessage("Swap request declined");
-    setSnackbarSeverity("error");
-    setOpenSnackbar(true);
-  };
+  const swapRequests = [
+    {
+      id: 1,
+      fromFaculty: { name: 'Dr. Jane Smith' },
+      toFaculty: { name: 'Dr. John Doe' },
+      timeSlot: { day: 'Monday', startTime: '09:00', endTime: '10:00' },
+      course: { code: 'CS101', name: 'Computer Science 101' },
+      room: '101A',
+      reason: 'Teaching conflict.',
+      dateRequested: '2025-04-19T08:00:00',
+      status: 'pending',
+    },
+    {
+      id: 2,
+      fromFaculty: { name: 'Dr. Anna Taylor' },
+      toFaculty: { name: 'Dr. John Doe' },
+      timeSlot: { day: 'Wednesday', startTime: '10:00', endTime: '11:00' },
+      course: { code: 'MATH102', name: 'Mathematics 102' },
+      room: '202B',
+      reason: 'Personal leave.',
+      dateRequested: '2025-04-18T10:00:00',
+      status: 'accepted',
+    },
+    // Add more requests as necessary
+  ];
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
+  // State to manage the different types of requests
+  const [sentRequests] = useState(swapRequests.filter(req => req.fromFaculty.name === faculty.name));
+  const [receivedRequests] = useState(swapRequests.filter(req => req.toFaculty.name === faculty.name));
+  
+  const handleAccept = (request) => {
+    console.log('Accepted:', request);
+  };
+  
+  const handleReject = (request) => {
+    console.log('Rejected:', request);
+  };
+  
+  const handleMessage = (request) => {
+    console.log('Message:', request);
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Swap Requests
-      </Typography>
+    <Box sx={{ width: '100%', padding: 2 }}>
+      <Typography variant="h4" sx={{ marginBottom: 2 }}>Faculty Swap Requests</Typography>
+      
+      <Tabs value={0} onChange={() => {}} indicatorColor="primary" textColor="primary">
+        <Tab label="Sent Requests" />
+        <Tab label="Received Requests" />
+      </Tabs>
 
-      {swapRequests.length === 0 ? (
-        <Typography variant="body1" color="textSecondary" align="center">
-          No swap requests pending
+      <Box sx={{ marginTop: 2 }}>
+        <Typography variant="h6" sx={{ marginBottom: 1 }}>
+          Sent Requests
         </Typography>
-      ) : (
-        <Box>
-          {swapRequests.map((request) => (
-            <Card key={request.id} sx={{ marginBottom: 2 }}>
-              <CardHeader
-                title={request.requestedBy}
-                subheader={`Requested on ${request.requestedDate}`}
+        <Grid container spacing={2}>
+          {sentRequests.map(request => (
+            <Grid item xs={12} md={6} key={request.id}>
+              <FacultySwapRequestCard
+                swapRequest={request}
+                type="sent"
+                onAccept={handleAccept}
+                onReject={handleReject}
+                onMessage={handleMessage}
               />
-              <CardContent>
-                <Typography variant="body1" paragraph>
-                  <strong>Reason:</strong> {request.reason}
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" color="primary">
-                      From:
-                    </Typography>
-                    <Typography variant="body2">{`${request.fromSlot.day}, ${request.fromSlot.startTime} - ${request.fromSlot.endTime}`}</Typography>
-                    <Typography variant="body2">{request.fromSlot.subject} ({request.fromSlot.class})</Typography>
-                    <Typography variant="body2">Room: {request.fromSlot.room}</Typography>
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" color="primary">
-                      To:
-                    </Typography>
-                    <Typography variant="body2">{`${request.toSlot.day}, ${request.toSlot.startTime} - ${request.toSlot.endTime}`}</Typography>
-                    <Typography variant="body2">{request.toSlot.subject} ({request.toSlot.class})</Typography>
-                    <Typography variant="body2">Room: {request.toSlot.room}</Typography>
-                  </Grid>
-                </Grid>
-
-                <Divider sx={{ marginY: 2 }} />
-
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                  {request.status === "pending" ? (
-                    <Box>
-                      <Button
-                        variant="contained"
-                        color="success"
-                        size="small"
-                        startIcon={<Check />}
-                        onClick={() => handleApprove(request.id)}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        startIcon={<X />}
-                        sx={{ marginLeft: 1 }}
-                        onClick={() => handleDecline(request.id)}
-                      >
-                        Decline
-                      </Button>
-                    </Box>
-                  ) : (
-                    <Typography
-                      variant="body2"
-                      color={request.status === "approved" ? "success.main" : "error.main"}
-                    >
-                      {request.status === "approved" ? "Approved" : "Declined"}
-                    </Typography>
-                  )}
-                </Box>
-              </CardContent>
-            </Card>
+            </Grid>
           ))}
-        </Box>
-      )}
+        </Grid>
 
-      {/* Snackbar for feedback */}
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbarSeverity}
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+        <Typography variant="h6" sx={{ marginTop: 4, marginBottom: 1 }}>
+          Received Requests
+        </Typography>
+        <Grid container spacing={2}>
+          {receivedRequests.map(request => (
+            <Grid item xs={12} md={6} key={request.id}>
+              <FacultySwapRequestCard
+                swapRequest={request}
+                type="received"
+                onAccept={handleAccept}
+                onReject={handleReject}
+                onMessage={handleMessage}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
-}
+};
+
+
