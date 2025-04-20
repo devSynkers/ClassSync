@@ -4,18 +4,20 @@ import dotenv from 'dotenv';
 
 import db from './config/db.js';
 import authRoute from './routes/authRoute.js'
+import profileRoute from "./routes/profileRoute.js"
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 🛡️ Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// 📌 Faculty Auth Routes
+
 app.use('/faculty/auth', authRoute);
+app.use('/faculty/profile',profileRoute)
 
 
 // 🚀 Start Server

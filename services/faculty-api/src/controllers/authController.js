@@ -25,7 +25,8 @@ export const facultyLogin = async (req, res) => {
 
         res.status(200).json({
             message: "Login successful",
-            token
+            token,
+            faculty_id: id 
         });
 
     } catch (error) {

@@ -14,6 +14,11 @@ import FacultySidebar from "./components/faculty/FacultySidebar.jsx";
 import FacultyFeedback from "./pages/faculty/FacultyFeedback.jsx";
 import FacultyProfile from "./pages/faculty/FacultyProfile.jsx";
 import { Navigate } from 'react-router-dom';
+import FacultyLayout from "./layouts/faculty/FacultyLayout.jsx";
+import FacultyTimeTable from "./pages/faculty/FacultyTimeTable.jsx";
+import FacultyMeetings from "./pages/faculty/FacultyMeetings.jsx";
+import FacultyToDo from "./pages/faculty/FacultyToDo.jsx";
+import FacultySwapRequests from "./pages/faculty/FacultySwapRequests.jsx";
 
 
 function App() {
@@ -37,10 +42,14 @@ function App() {
                 {/*<Route path="profile" element={<Profile />} />*/}
             </Route>
 
-            <Route path="/faculty" element={<FacultySidebar />}>
+            <Route path="/faculty" element={<FacultyLayout />}>
   <Route path="dashboard" element={<FacultyDashBoard />} />
   <Route path="student-feedback" element={<FacultyFeedback />} />
   <Route path="profile" element={<FacultyProfile />} />
+  <Route path="timetable" element={<FacultyTimeTable />} />
+  <Route path="meetings" element={<FacultyMeetings/>} />
+  <Route path="todo" element={<FacultyToDo />} />
+  <Route path="swap-requests" element={<FacultySwapRequests/>} />
 </Route>
 
 
