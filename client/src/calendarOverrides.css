@@ -1,0 +1,21 @@
+/* Highlight today's date in month view */
+.rbc-month-view .rbc-today {
+    background-color: #e0f2fe;
+}
+
+/* Month view cell styling */
+.rbc-month-view .rbc-date-cell {
+    font-weight: 500;
+    padding: 4px;
+    text-align: right;
+}
+
+/* Remove events from month view (optional - only shows day numbers) */
+.rbc-month-view .rbc-event {
+    display: none; /* Hide events from month view if you want only a grid */
+}
+
+/* Day view: show regular styling */
+.rbc-day-view .rbc-event {
+    display: block;
+}

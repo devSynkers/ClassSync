@@ -25,7 +25,7 @@ export default function StudentLogin(){
   }
 
   return(
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 px-4">
+    <div className="flex justify-center items-center min-h-[calc(100vh-5rem)] bg-gradient-to-br from-blue-100 to-blue-300 px-4">
       <div className="w-full max-w-md rounded-3xl p-8 sm:p-10 shadow-2xl border border-white/20 bg-white/25 backdrop-blur-2xl">
       <h2 className="text-2xl font-semibold text-center text-blue-800 mb-6">Student Portal</h2>
 

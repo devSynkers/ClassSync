@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Calendar, AlertCircle, CalendarDays, UserCircle, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { Calendar, CalendarDays, UserCircle, LogOut } from 'lucide-react';
 import useFetch from "../../hooks/studentHooks/useFetch.js";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MessageSquare } from 'lucide-react';
@@ -26,16 +26,17 @@ export default function StudentSidebar() {
         return true;
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login/student");
+    };
+
     const navItems = [
         { icon: <UserCircle size={20} />, label: `WELCOME! ${data?.student_name || ""}`, path:'profile' },
-        { icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
         { icon: <Calendar size={20} />, label: 'Calendar', path:'calendar'},
-        { icon: <AlertCircle size={20} />, label: 'Class Announcements' },
         { icon: <CalendarDays size={20} />, label: 'Class Timetable', path:'classtimetable'},
         { icon: <MessageSquare size={20} />, label: 'Feedback', path: 'feedback' },
-        { icon: <Settings size={20} />, label: 'Settings' },
-        { icon: <HelpCircle size={20} />, label: 'Help / Support' },
-        { icon: <LogOut size={20} />, label: 'Logout' },
+        { icon: <LogOut size={20} />, label: 'Logout', onClick: handleLogout },
     ];
 
     return (
@@ -65,7 +66,14 @@ export default function StudentSidebar() {
                             {navItems.map((item, index) => (
                                 <div
                                     key={index}
-                                    onClick={() => navigate(item.path)}
+                                    onClick={() => {
+                                        if (item.onClick) {
+                                            item.onClick();
+                                        } else if (item.path) {
+                                            navigate(item.path);
+                                        }
+                                    }}
+
                                     className="flex items-center px-3 py-2 hover:bg-blue-300 text-gray-800 rounded-md cursor-pointer"
                                 >
                                     <div className="mr-4">{item.icon}</div>

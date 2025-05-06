@@ -3,9 +3,9 @@ import AppHeader from '../components/AppHeader';
 
 const LandingLayout = () => {
     return (
-        <div className='flex-col'>
+        <div className='flex flex-col min-h-screen'>
             <AppHeader />
-            <div className='flex-1'>
+            <div className='flex-grow'>
                 <Outlet />
             </div>
         </div>
