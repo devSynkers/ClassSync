@@ -1,57 +1,49 @@
-// TimeTable.jsx
-import React, { useState } from 'react';
-import { Typography, Box, Button, Tabs, Tab } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Typography, Box, Tabs, Tab, CircularProgress } from '@mui/material';
 import TimeTableGrid from '../../components/faculty/TimeTableGrid';
 import DelegationForm from '../../components/faculty/DelegationForm';
 
 export const FacultyTimeTable = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [selectedPeriod, setSelectedPeriod] = useState(null);
+  const [allPeriods, setAllPeriods] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
 
-  const currentFacultyId = 'f1'; // Simulated logged-in faculty
+  useEffect(() => {
+    const fetchTimetable = async () => {
+      try {
+        const facultyId = localStorage.getItem('faculty_id');
+        if (!facultyId) {
+          setError('Faculty ID is missing!');
+          setLoading(false);
+          return;
+        }
 
-  const allPeriods = [
-    {
-      id: 'p1',
-      courseCode: 'CS101',
-      courseName: 'Intro to CS',
-      room: '101',
-      day: 'Monday',
-      time: '09:00-10:00',
-      facultyId: 'f1',
-      isDelegated: false,
-    },
-    {
-      id: 'p2',
-      courseCode: 'MTH102',
-      courseName: 'Calculus I',
-      room: '202',
-      day: 'Tuesday',
-      time: '10:00-11:00',
-      facultyId: 'f1',
-      isDelegated: true,
-      delegationStatus: 'pending',
-      delegatedToId: 'f2',
-      delegatedToName: 'Dr. Smith',
-    },
-    {
-      id: 'p3',
-      courseCode: 'PHY105',
-      courseName: 'Mechanics',
-      room: '105',
-      day: 'Friday',
-      time: '11:15-12:15',
-      facultyId: 'f2',
-      isDelegated: true,
-      delegationStatus: 'accepted',
-      delegatedToId: 'f1',
-      delegatedToName: 'You',
-    },
-  ];
+        const response = await axios.get(`http://localhost:3000/faculty/period/${facultyId}`);
+        setAllPeriods(response.data);
+      } catch (error) {
+        setError('Error fetching timetable');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const myClasses = allPeriods.filter(p => p.facultyId === currentFacultyId);
-  const delegatedToMe = allPeriods.filter(p => p.delegatedToId === currentFacultyId);
+    fetchTimetable();
+  }, []);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
+  const myClasses = allPeriods;
+  const delegatedToMe = []; // You can implement delegation here if needed
 
   const handleDelegateClick = (period) => {
     setSelectedPeriod(period);
@@ -60,6 +52,8 @@ export const FacultyTimeTable = () => {
 
   const handleDelegationSubmit = (data) => {
     console.log("Delegation submitted:", data);
+    // handle the submission logic here, like updating the timetable
+    setDialogOpen(false);
   };
 
   return (
@@ -77,7 +71,7 @@ export const FacultyTimeTable = () => {
       {activeTab === 0 ? (
         <TimeTableGrid periods={myClasses} onDelegateClick={handleDelegateClick} />
       ) : (
-        <TimeTableGrid periods={delegatedToMe} onDelegateClick={() => {}} />
+        <Typography>No delegated classes yet.</Typography>
       )}
 
       <DelegationForm
@@ -89,5 +83,3 @@ export const FacultyTimeTable = () => {
     </Box>
   );
 };
-
-

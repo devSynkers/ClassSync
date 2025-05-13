@@ -1,58 +1,89 @@
 // TimeTableGrid.jsx
 import React from 'react';
-import { Box, Typography, Paper, Button, Chip } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const timeSlots = ['09:00-10:00', '10:00-11:00', '11:15-12:15', '12:15-13:15', '14:00-15:00'];
+const timeSlots = [
+  '08:30-09:20',
+  '09:25-10:15',
+  '10:30-11:20',
+  '11:25-12:15',
+  '13:10-14:00',
+  '14:05-14:55',
+  '15:00-15:50',
+  '15:55-16:45',
+];
 
-const TimeTableGrid = ({ periods, onDelegateClick }) => {
+const TimeTableGrid = ({ periods }) => {
   const getCellContent = (day, time) => {
-    const match = periods.find(p => p.day === day && p.time === time);
+    const match = periods.find(p => p.day === day && p.time_slot === time);
     if (!match) return null;
 
     return (
-      <Paper elevation={2} sx={{ p: 1.5, minHeight: 100 }}>
-        <Typography variant="subtitle2">{match.courseCode}</Typography>
-        <Typography variant="body2" color="textSecondary">{match.courseName}</Typography>
+      <Paper elevation={0} sx={{ p: 1, minHeight: 100 }}>
+        <Typography variant="subtitle2">{match.course_code}</Typography>
+        <Typography variant="body2" color="textSecondary">{match.course_name}</Typography>
         <Typography variant="caption">Room: {match.room}</Typography>
-
-        {match.isDelegated ? (
-          <Box mt={1}>
-            <Chip 
-              size="small" 
-              label={match.delegationStatus === 'pending' ? 'Delegation Pending' : 'Delegated'} 
-              color={match.delegationStatus === 'pending' ? 'warning' : 'primary'}
-            />
-            {match.delegatedToName && (
-              <Typography variant="caption" display="block">{match.delegatedToName}</Typography>
-            )}
-          </Box>
-        ) : (
-          <Button 
-            variant="outlined" 
-            size="small" 
-            onClick={() => onDelegateClick(match)} 
-            sx={{ mt: 1 }}
-          >
-            Delegate
-          </Button>
-        )}
       </Paper>
     );
   };
 
   return (
-    <Box display="grid" gridTemplateColumns={`repeat(${days.length + 1}, 1fr)`} gap={1}>
-      <Box />
+    <Box display="grid" gridTemplateColumns={`repeat(${days.length + 1}, 1fr)`} gap={0}>
+      <Box
+        sx={{
+          border: '1px solid #ccc',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f5f5f5',
+          fontWeight: 'bold',
+          height: 60,
+        }}
+      >
+        Time / Day
+      </Box>
       {days.map(day => (
-        <Typography key={day} align="center" fontWeight="bold">{day}</Typography>
+        <Box
+          key={day}
+          sx={{
+            border: '1px solid #ccc',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#f5f5f5',
+            fontWeight: 'bold',
+            height: 60,
+          }}
+        >
+          {day}
+        </Box>
       ))}
 
       {timeSlots.map(time => (
         <React.Fragment key={time}>
-          <Typography fontWeight="bold" align="center">{time}</Typography>
+          <Box
+            sx={{
+              border: '1px solid #ccc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              height: 100,
+              textAlign: 'center',
+            }}
+          >
+            {time}
+          </Box>
           {days.map(day => (
-            <Box key={`${day}-${time}`}>
+            <Box
+              key={`${day}-${time}`}
+              sx={{
+                border: '1px solid #ccc',
+                minHeight: 100,
+                p: 1,
+              }}
+            >
               {getCellContent(day, time)}
             </Box>
           ))}

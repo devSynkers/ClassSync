@@ -2,10 +2,10 @@ import { Box, Card, CardContent, CardHeader, Typography, Grid, IconButton } from
 import { Check, Calendar, MessageSquare, Book } from "lucide-react"; // Use your preferred icons, they can be from material-ui or lucide-react.
 
 const FacultyDashBoard = () => {
-  const unreadFeedbacks = 5; // Example data
+  const unreadFeedbacks = 1; // Example data
   const pendingSwaps = 2; // Example data
-  const pendingTasks = 3; // Example data
-  const upcomingMeetings = 4; // Example data
+  const pendingTasks = 2; // Example data
+  const upcomingMeetings = 2; // Example data
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f5f5" }}>

@@ -8,6 +8,7 @@ import profileRoute from "./routes/profileRoute.js"
 import todoRoute from "./routes/todoRoute.js"
 import meetingRoute from "./routes/meetingRoute.js"
 import feedbackRoute from './routes/feedbackRoute.js'
+import periodRoute from "./routes/timetableRoute.js"
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use('/faculty/profile',profileRoute);
 app.use('/faculty/todos', todoRoute);
 app.use('/faculty/meeting',meetingRoute);
 app.use('/faculty/feedback',feedbackRoute);
+app.use('/faculty/period',periodRoute)
 
 
 // 🚀 Start Server

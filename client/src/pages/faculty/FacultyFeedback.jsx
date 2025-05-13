@@ -103,9 +103,7 @@ export function FacultyFeedback() {
                     {new Date(selectedFeedback.date).toLocaleDateString()}
                   </Typography>
                 </Box>
-                <Button variant="outlined" size="small">
-                  Reply
-                </Button>
+          
               </Box>
 
               <Divider sx={{ my: 2 }} />
