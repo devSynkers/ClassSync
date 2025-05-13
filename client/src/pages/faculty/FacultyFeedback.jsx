@@ -1,34 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Box, Typography, Divider } from "@mui/material";
 
 export function FacultyFeedback() {
-  const feedbacks = [
-    {
-      id: "1",
-      studentName: "John Doe",
-      studentId: "S123",
-      subject: "Feedback on Lecture 5",
-      date: "2025-04-20",
-      message: "Great lecture on advanced algorithms. Would appreciate more examples.",
-      read: false,
-    },
-    {
-      id: "2",
-      studentName: "Jane Smith",
-      studentId: "S124",
-      subject: "Feedback on Lecture 6",
-      date: "2025-04-21",
-      message: "The pacing of the lecture was a bit fast, please slow down.",
-      read: true,
-    },
-  ];
-
-  const [feedbackList, setFeedbackList] = useState(feedbacks);
+  const [feedbackList, setFeedbackList] = useState([]);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
 
+  const facultyId = localStorage.getItem("faculty_id");
+
+  useEffect(() => {
+    if (!facultyId) return;
+
+    fetch(`http://localhost:3000/faculty/feedback/${facultyId}`)
+      .then((res) => res.json())
+      .then((data) => setFeedbackList(data))
+      .catch((err) => console.error("Error fetching feedback:", err));
+  }, [facultyId]);
+
   const markAsRead = (id) => {
-    setFeedbackList(
-      feedbackList.map((feedback) =>
+    fetch(`http://localhost:3000/faculty/feedback/mark-read/${id}`, {
+      method: "PATCH",
+    });
+
+    setFeedbackList((prev) =>
+      prev.map((feedback) =>
         feedback.id === id ? { ...feedback, read: true } : feedback
       )
     );
@@ -41,7 +35,7 @@ export function FacultyFeedback() {
     }
   };
 
-  const unreadCount = feedbackList.filter((feedback) => !feedback.read).length;
+  const unreadCount = feedbackList.filter((f) => !f.read).length;
 
   return (
     <Box sx={{ padding: 3, maxWidth: 1200, margin: "0 auto" }}>
@@ -73,22 +67,23 @@ export function FacultyFeedback() {
                 justifyContent: "flex-start",
                 padding: "12px 16px",
                 textAlign: "left",
-                backgroundColor: selectedFeedback?.id === feedback.id ? "#f5f5f5" : "transparent",
+                backgroundColor:
+                  selectedFeedback?.id === feedback.id ? "#f5f5f5" : "transparent",
                 fontWeight: feedback.read ? "normal" : "bold",
                 marginBottom: 2,
-                '&:hover': { backgroundColor: "#f5f5f5" },
+                "&:hover": { backgroundColor: "#f5f5f5" },
               }}
               onClick={() => handleSelectFeedback(feedback)}
             >
               <Box sx={{ width: "100%" }}>
                 <Typography variant="body1" noWrap>
-                  {feedback.studentName}
+                  {feedback.student_name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" noWrap>
                   {feedback.subject}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {feedback.date}
+                  {new Date(feedback.date).toLocaleDateString()}
                 </Typography>
               </Box>
             </Button>
@@ -102,10 +97,10 @@ export function FacultyFeedback() {
                 <Box>
                   <Typography variant="h6">{selectedFeedback.subject}</Typography>
                   <Typography variant="body2" color="textSecondary">
-                    From: {selectedFeedback.studentName} ({selectedFeedback.studentId})
+                    From: {selectedFeedback.student_name} ({selectedFeedback.student_id})
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {selectedFeedback.date}
+                    {new Date(selectedFeedback.date).toLocaleDateString()}
                   </Typography>
                 </Box>
                 <Button variant="outlined" size="small">
@@ -113,7 +108,6 @@ export function FacultyFeedback() {
                 </Button>
               </Box>
 
-              {/* Using Divider instead of a custom Box for separation */}
               <Divider sx={{ my: 2 }} />
 
               <Typography variant="body2">{selectedFeedback.message}</Typography>

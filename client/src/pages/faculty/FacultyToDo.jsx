@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -11,22 +12,12 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const initialTodoItems = [
-  {
-    id: "todo-1",
-    title: "Prepare lecture notes",
-    description: "Chapter 4: React Hooks",
-    dueDate: "2025-04-25",
-    completed: false,
-    priority: "high",
-  },
-];
-
-export default function TodoList() {
-  const [todoItems, setTodoItems] = useState(initialTodoItems);
+export default function FacultyToDo() {
+  const [todoItems, setTodoItems] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  // Form state
+  const facultyId = localStorage.getItem("faculty_id"); // assuming this is already set
+
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
@@ -34,26 +25,58 @@ export default function TodoList() {
     priority: "medium",
   });
 
-  const handleAddTask = () => {
-    if (!newTask.title.trim()) return;
+  useEffect(() => {
+    if (!facultyId) return;
 
-    const newItem = {
-      ...newTask,
-      id: `todo-${Date.now()}`,
-      completed: false,
+    const fetchTodos = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/faculty/todos/${facultyId}`
+        );
+        setTodoItems(response.data);
+      } catch (err) {
+        console.error("Error fetching todos:", err);
+      }
     };
 
-    setTodoItems([newItem, ...todoItems]);
-    setNewTask({ title: "", description: "", dueDate: "", priority: "medium" });
-    setSnackbarOpen(true);
+    fetchTodos();
+  }, [facultyId]);
+
+  const handleAddTask = async () => {
+    if (!newTask.title.trim()) return;
+
+    try {
+      const response = await axios.post(`http://localhost:3000/faculty/todos`, {
+        ...newTask,
+        facultyId: facultyId, // Send facultyId
+      });
+
+      setTodoItems([response.data, ...todoItems]);
+      setNewTask({
+        title: "",
+        description: "",
+        dueDate: "",
+        priority: "medium",
+      });
+      setSnackbarOpen(true);
+    } catch (err) {
+      console.error("Error adding task:", err);
+    }
   };
 
-  const handleToggleComplete = (id) => {
-    setTodoItems(
-      todoItems.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
+  const handleToggleComplete = async (id) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:3000/faculty/todos/toggle/${id}`
+      );
+      setTodoItems(
+        todoItems.map((item) =>
+          item.id === id ? { ...item, completed: response.data.completed } : item
+        )
+      );
+    } catch (err) {
+      console.error("Error toggling task:", err);
+    }
   };
 
   const [activeFilter, setActiveFilter] = useState("all");

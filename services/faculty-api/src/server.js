@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import db from './config/db.js';
 import authRoute from './routes/authRoute.js'
 import profileRoute from "./routes/profileRoute.js"
+import todoRoute from "./routes/todoRoute.js"
+import meetingRoute from "./routes/meetingRoute.js"
+import feedbackRoute from './routes/feedbackRoute.js'
 
 dotenv.config();
 
@@ -17,7 +20,10 @@ app.use(express.json());
 
 
 app.use('/faculty/auth', authRoute);
-app.use('/faculty/profile',profileRoute)
+app.use('/faculty/profile',profileRoute);
+app.use('/faculty/todos', todoRoute);
+app.use('/faculty/meeting',meetingRoute);
+app.use('/faculty/feedback',feedbackRoute);
 
 
 // 🚀 Start Server

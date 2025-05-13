@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -7,47 +7,68 @@ import {
   Chip,
   Button,
   Grid,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 
-// Sample static meeting data
-const meetings = [
-  {
-    id: "meeting-1",
-    title: "Department Strategy Meeting",
-    date: "2025-04-20",
-    startTime: "10:00 AM",
-    endTime: "11:30 AM",
-    location: "Conference Room A",
-    description: "Discuss quarterly goals and faculty planning.",
-    attendees: ["Dr. Sharma", "Prof. Kapoor", "Ms. Lobo"],
-  },
-  {
-    id: "meeting-2",
-    title: "Student Research Review",
-    date: "2025-04-20",
-    startTime: "2:00 PM",
-    endTime: "3:00 PM",
-    location: "Lab 3",
-    description: "Presentation of research progress by final-year students.",
-    attendees: ["Dr. Mehra", "Prof. Singh"],
-  },
-  {
-    id: "meeting-3",
-    title: "No Attendees Example",
-    date: "2025-04-20",
-    startTime: "4:00 PM",
-    endTime: "5:00 PM",
-    location: "Room B",
-    description: "Testing fallback rendering.",
-    attendees: 0, // <- would previously break, now handled
-  },
-];
-
 export default function FacultyMeetings() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [meetings, setMeetings] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // 'success' or 'error'
+  const facultyName = "Riyas Sudheen"; // Example faculty name (this can be dynamic)
+
+  // Fetch meetings when the component mounts
+  useEffect(() => {
+    fetchMeetings();
+  }, [selectedDate]);
+
+  const fetchMeetings = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/faculty/meeting/${facultyName}`
+      );
+      const data = await response.json();
+      setMeetings(data);
+    } catch (error) {
+      console.error("Error fetching meetings:", error);
+    }
+  };
+
+  const handleRSVP = async (meetingId, status) => {
+    try {
+      const response = await fetch("http://localhost:3000/faculty/meeting/rsvp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          meetingId,
+          facultyName,
+          status,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.message) {
+        setSnackbarMessage(`RSVP ${status === 'RSVP' ? 'confirmed' : 'declined'} successfully!`);
+        setSnackbarSeverity("success"); // Success notification
+        fetchMeetings(); // Refresh meetings after RSVP
+      } else {
+        setSnackbarMessage("Failed to submit RSVP");
+        setSnackbarSeverity("error"); // Error notification
+      }
+    } catch (error) {
+      console.error("Error submitting RSVP:", error);
+      setSnackbarMessage("Failed to submit RSVP");
+      setSnackbarSeverity("error"); // Error notification
+    }
+    setSnackbarOpen(true); // Open the snackbar
+  };
 
   const filteredMeetings = selectedDate
     ? meetings.filter((meeting) => {
@@ -59,6 +80,11 @@ export default function FacultyMeetings() {
         );
       })
     : [];
+
+  // Close Snackbar handler
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Box sx={{ p: 3 }}>
@@ -131,10 +157,20 @@ export default function FacultyMeetings() {
                         </Box>
 
                         <Box mt={3} display="flex" justifyContent="flex-end" gap={1}>
-                          <Button variant="outlined" size="small" color="primary">
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="primary"
+                            onClick={() => handleRSVP(meeting.id, "RSVP")}
+                          >
                             RSVP
                           </Button>
-                          <Button variant="text" size="small" color="error">
+                          <Button
+                            variant="text"
+                            size="small"
+                            color="error"
+                            onClick={() => handleRSVP(meeting.id, "Declined")}
+                          >
                             Decline
                           </Button>
                         </Box>
@@ -147,6 +183,21 @@ export default function FacultyMeetings() {
           </Card>
         </Grid>
       </Grid>
+
+      {/* Snackbar Notification */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
